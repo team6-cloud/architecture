@@ -1,8 +1,8 @@
 /* 
 
 tercer digito de la IP:
-	impar: subnet publica
 	par: subnet privada
+	impar: subnet publica
 
 */
 
@@ -10,7 +10,7 @@ tercer digito de la IP:
 variable "azs" {
  type        = list(string)
  description = "Availability Zones"
- default     = ["us-west-2a", "us-west-2b"]
+ default     = ["us-west-2a", "us-west-2b"]		// TODO: AZs a y b de la región actual.
 }
 
 
