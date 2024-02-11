@@ -96,3 +96,9 @@ variable "backend_image" {
 	type = string
 	default = "851725525762.dkr.ecr.us-west-2.amazonaws.com/backend:0.1-snapshot"	
 }
+
+
+variable "lb_port" {
+	type = number
+	default = 80
+}

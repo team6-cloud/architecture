@@ -18,7 +18,6 @@ resource "aws_ecs_task_definition" "frontend" {
 
   container_definitions = jsonencode([
     {
-#      name         = var.service_name
       name         = "frontend_servicename"
       image        = var.frontend_image
       cpu          = var.frontend_cpu
@@ -26,8 +25,6 @@ resource "aws_ecs_task_definition" "frontend" {
       essential    = true
       portMappings = [
         {
-#          containerPort = var.container_port
-#          hostPort      = var.container_port
           containerPort = var.frontend_port
           hostPort      = var.frontend_port
           protocol      = "tcp"
@@ -145,6 +142,60 @@ egress {
     CostCenter = "Dev PoC"
     fase       = "2"
 	}   
+}
+
+// security group para el balanceador
+
+resource "aws_security_group" "sg_lb" {
+ name        = "sg_lb"
+ description = "Allow 80 to ALB"
+ vpc_id      = aws_vpc.vpc.id
+
+ingress {
+   description = "Allow tcp/80 ingress"
+   from_port   = var.lb_port
+   to_port     = var.lb_port
+   protocol    = "tcp"
+   cidr_blocks = ["0.0.0.0/0"]
+ }
+
+egress {
+   from_port   = 0
+   to_port     = 0
+   protocol    = "-1"
+   cidr_blocks = ["0.0.0.0/0"]
+ }
+
+  tags = {
+    CostCenter = "Dev PoC"
+    fase       = "2"
+	}   
+}
+
+
+resource "aws_lb" "tfm_alb" {
+  name            = "tfm_lb"
+  subnets         = aws_subnet.public_subnets.*.id
+  security_groups = [aws_security_group.sg_lb.id]
+}
+
+resource "aws_lb_target_group" "tg_frontend" {
+  name        = "tg_frontend"
+  port        = var.lb_port
+  protocol    = "HTTP"
+  vpc_id      = aws_vpc.vpc.id
+  target_type = "ip"
+}
+
+resource "aws_lb_listener" "lb_listener" {
+  load_balancer_arn = aws_lb.tfm_alb.id
+  port              = var.lb_port
+  protocol          = "HTTP"
+
+  default_action {
+    target_group_arn = aws_lb_target_group.tg_frontend.id
+    type             = "forward"
+  }
 }
 
 
