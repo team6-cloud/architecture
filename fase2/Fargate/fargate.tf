@@ -174,13 +174,21 @@ egress {
 
 
 resource "aws_lb" "tfm_alb" {
-  name            = "tfm_lb"
+  name            = "tfm-alb"
   subnets         = aws_subnet.public_subnets.*.id
   security_groups = [aws_security_group.sg_lb.id]
 }
 
 resource "aws_lb_target_group" "tg_frontend" {
-  name        = "tg_frontend"
+  name        = "tg-frontend"
+  port        = var.lb_port
+  protocol    = "HTTP"
+  vpc_id      = aws_vpc.vpc.id
+  target_type = "ip"
+}
+
+resource "aws_lb_target_group" "tg_backend" {
+  name        = "tg-backend"
   port        = var.lb_port
   protocol    = "HTTP"
   vpc_id      = aws_vpc.vpc.id
