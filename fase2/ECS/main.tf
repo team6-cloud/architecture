@@ -87,7 +87,11 @@ resource "aws_ecs_task_definition" "frontend_task" {
   memory                   = var.task-memory
   execution_role_arn       = var.labrole_arn
   task_role_arn            = var.labrole_arn
-  container_definitions    = <<DEFINITION
+  runtime_platform {
+    cpu_architecture = "X86_64"
+    operating_system_family = "LINUX"
+  }
+  container_definitions = <<DEFINITION
 [
   {
     "name": "frontend",
@@ -122,6 +126,10 @@ resource "aws_ecs_task_definition" "backend_task" {
   memory                   = var.task-memory
   execution_role_arn       = var.labrole_arn
   task_role_arn            = var.labrole_arn
+  runtime_platform {
+    cpu_architecture = "X86_64"
+    operating_system_family = "LINUX"
+  }
   container_definitions    = <<DEFINITION
 [
   {
