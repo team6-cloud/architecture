@@ -49,7 +49,7 @@ variable "mongo-image" {
 variable "task_count" {
   description = "Default amount of tasks per service"
   type        = number
-  default     = 1
+  default     = 0
 }
 
 variable "labrole_arn" {

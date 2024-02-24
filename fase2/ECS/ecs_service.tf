@@ -14,7 +14,7 @@ resource "aws_ecs_service" "frontend_service" {
   launch_type         = "FARGATE"
   scheduling_strategy = "REPLICA"
   network_configuration {
-    subnets          = [module.vpc.private_subnets.*.id]
+    subnets          = [module.vpc.private_subnets[0], module.vpc.private_subnets[1]]
     security_groups  = [aws_security_group.ecs_tasks.id]
     assign_public_ip = false
   }
@@ -45,7 +45,7 @@ resource "aws_ecs_service" "backend_service" {
   launch_type         = "FARGATE"
   scheduling_strategy = "REPLICA"
   network_configuration {
-    subnets          = [module.vpc.private_subnets.*.id]
+    subnets          = [module.vpc.private_subnets[0], module.vpc.private_subnets[1]]
     security_groups  = [aws_security_group.ecs_tasks.id]
     assign_public_ip = false
   }
