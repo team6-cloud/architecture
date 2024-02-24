@@ -1,7 +1,7 @@
 variable "region" {
   description = "AWS region"
   type        = string
-  default     = "us-west-2"
+  default     = "us-east-1"
 }
 
 variable "prefix" {
@@ -56,4 +56,16 @@ variable "labrole_arn" {
   description = "Academy LabRole ARN"
   type        = string
   default     = "arn:aws:iam::654654524281:role/LabRole"
+}
+
+variable "frontend_port" {
+  description = "Frontend container port"
+  type = number
+  default = 3000
+}
+
+variable "backend_port" {
+  description = "Backend container port"
+  type = number
+  default = 3001
 }
