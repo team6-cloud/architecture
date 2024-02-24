@@ -46,3 +46,7 @@ resource "aws_s3_object" "upload_object" {
   etag          = filemd5("html/${each.value}")
   content_type  = "text/html"
 }*/
+
+output "bucket_name" {
+	value = aws_s3_bucket.bucket.id
+}

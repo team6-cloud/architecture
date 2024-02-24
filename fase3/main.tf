@@ -29,21 +29,25 @@ provider "aws" {
   region = var.aws_region
 }
 
-/* FIXME: solo se usa desde s3.tf?
-resource "random_string" "random" {
-  length           = 4
-  special          = false
-} */
 
 #========================================================================
 // DynamodDB table
 #========================================================================
-// -> database.tf
+// -> database.tf	// TODO: 
+					// -añadir num random (igual que en s3) para permitir multiples tablas.?
 
 #========================================================================
 // S3 bucket
 #========================================================================
-// -> s3.tf		// TODO: local-exec para hacer el build del front y subirlo.
+// -> s3.tf		
+
+#========================================================================
+// Resultado del build del frontend -> upload a s3.
+#========================================================================
+// -> frontend.tf		// TODO: 
+						// -establecer dependencias con la creación del bucket y el cloudfront dist.
+						// -hacer el copy al bucket s3.
+						// -inyectar la variable de entorno para la API (a partir de la url de cloudfront)
 
 #========================================================================
 // lambda setup
