@@ -2,18 +2,17 @@
 
 
 resource "aws_lambda_function" "lambda_function" {
-  function_name    = "backend"
+  function_name    = "Lambda_Backend"
   filename         = data.archive_file.lambda_zip_file.output_path
   source_code_hash = data.archive_file.lambda_zip_file.output_base64sha256
   handler          = "app.handler"
-//  role             = aws_iam_role.labrole.arn
   role             = data.aws_iam_role.labrole.arn
-  runtime          = "nodejs16.x"               // FIXME
+  runtime          = "nodejs20.x"               // FIXME
 }
 
 data "archive_file" "lambda_zip_file" {
   type        = "zip"
-  source_file = "${path.module}/src/backend.js"
+  source_file = "${path.module}/src/index.mjs"
   output_path = "${path.module}/lambda.zip"
 }
 
