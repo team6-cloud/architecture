@@ -107,6 +107,7 @@ resource "aws_ecs_task_definition" "frontend_task" {
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
+        "awslogs-create-group": "true",
         "awslogs-group": "${aws_cloudwatch_log_group.frontend_log_group.name}",
         "awslogs-region": "${var.region}",
         "awslogs-stream-prefix": "ecs"
