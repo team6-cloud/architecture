@@ -17,3 +17,12 @@ resource "null_resource" "update_source_files" {
 	    on_failure = fail
     }
 }
+
+
+
+
+output "upload_source_files" {
+    description = "upload source files"
+//    value       = "https://${aws_s3_bucket.bucket.id}.s3.${aws_s3_bucket.bucket.region}.amazonaws.com/"
+	value 		= "aws s3 cp build/ s3://${bucket.name} --recursive"
+}
