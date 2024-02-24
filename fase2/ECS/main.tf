@@ -146,6 +146,7 @@ resource "aws_ecs_task_definition" "backend_task" {
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
+        "awslogs-create-group": "true",
         "awslogs-group": "${aws_cloudwatch_log_group.backend_log_group.name}",
         "awslogs-region": "${var.region}",
         "awslogs-stream-prefix": "ecs"
@@ -166,7 +167,8 @@ resource "aws_ecs_task_definition" "backend_task" {
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
-        "awslogs-group": "/fargate/service/mongo",
+        "awslogs-create-group": "true",
+        "awslogs-group": "${aws_cloudwatch_log_group.mongo_log_group.name}",
         "awslogs-region": "${var.region}",
         "awslogs-stream-prefix": "ecs"
       }
@@ -184,6 +186,10 @@ resource "aws_ecs_service" "frontend_service" {
   desired_count                      = var.task_count
   deployment_minimum_healthy_percent = 100
   deployment_maximum_percent         = 200
+  deployment_circuit_breaker {
+    enable = true
+    rollback = true
+  }
   launch_type                        = "FARGATE"
   scheduling_strategy                = "REPLICA"
   network_configuration {
@@ -210,6 +216,10 @@ resource "aws_ecs_service" "backend_service" {
   desired_count                      = var.task_count
   deployment_minimum_healthy_percent = 100
   deployment_maximum_percent         = 200
+  deployment_circuit_breaker {
+    enable = true
+    rollback = true
+  }
   launch_type                        = "FARGATE"
   scheduling_strategy                = "REPLICA"
   network_configuration {
