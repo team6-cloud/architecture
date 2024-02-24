@@ -11,9 +11,8 @@ resource "aws_dynamodb_table" "main" {
   }
   
   tags = {
-    CostCenter = "superaplicacion"
+    CostCenter = "Dev PoC"
     fase       = "3"
-	environment = "PROD"
 	}     
   
 }

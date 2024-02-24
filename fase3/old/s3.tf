@@ -11,9 +11,8 @@ resource "aws_s3_bucket" "bucket" {
   force_destroy = true
   
   tags = {
-    CostCenter = "superaplicacion"
+    CostCenter = "Dev PoC"
     fase       = "3"
-	environment = "PROD"
 	}     
   
 }
