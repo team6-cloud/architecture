@@ -29,6 +29,13 @@ provider "aws" {
   region = var.aws_region
 }
 
+##### Creating a Random String #####
+resource "random_string" "random" {
+  length = 6
+  special = false
+  upper = false
+} 
+
 
 #========================================================================
 // DynamodDB table

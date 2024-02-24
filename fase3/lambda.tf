@@ -7,7 +7,7 @@ resource "aws_lambda_function" "lambda_function" {
   source_code_hash = data.archive_file.lambda_zip_file.output_base64sha256
   handler          = "app.handler"
   role             = data.aws_iam_role.labrole.arn
-  runtime          = "nodejs20.x"               // FIXME
+  runtime          = "nodejs16.x"               // FIXME
 }
 
 data "archive_file" "lambda_zip_file" {
