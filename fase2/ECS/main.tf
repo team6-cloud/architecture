@@ -116,7 +116,7 @@ resource "aws_ecs_task_definition" "frontend_task" {
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
-        "awslogs-group": "/fargate/service/frontend",
+        "awslogs-group": "${aws_cloudwatch_log_group.frontend_log_group.name}",
         "awslogs-region": "${var.region}",
         "awslogs-stream-prefix": "ecs"
       }
@@ -155,7 +155,7 @@ resource "aws_ecs_task_definition" "backend_task" {
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
-        "awslogs-group": "/fargate/service/backend",
+        "awslogs-group": "${aws_cloudwatch_log_group.backend_log_group.name}",
         "awslogs-region": "${var.region}",
         "awslogs-stream-prefix": "ecs"
       }
