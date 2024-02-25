@@ -2,7 +2,8 @@ locals {
 //  s3_origin_id   = "${var.s3_name}-origin"
 //  s3_domain_name = "${var.s3_name}.s3-website-us-west-2.amazonaws.com"
   s3_origin_id   = "${aws_s3_bucket.bucket.id}-origin"
-  s3_domain_name = "${aws_s3_bucket.bucket.id}.s3-website-us-west-2.amazonaws.com"
+//  s3_domain_name = "${aws_s3_bucket.bucket.id}.s3-website-us-west-2.amazonaws.com"
+  s3_domain_name = "${aws_s3_bucket.bucket.id}.s3-website-${aws_s3_bucket.bucket.region}.amazonaws.com"
 }
 
 resource "aws_cloudfront_distribution" "this" {
