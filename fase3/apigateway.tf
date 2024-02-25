@@ -1,6 +1,6 @@
 resource "aws_api_gateway_rest_api" "my_api" {
-  name = "my-api"
-  description = "My API Gateway"
+  name = "superaplicacion"
+  description = "Superaplicacion(tm) API GW"
 
   endpoint_configuration {
     types = ["REGIONAL"]
@@ -16,23 +16,24 @@ resource "aws_api_gateway_rest_api" "my_api" {
 resource "aws_api_gateway_resource" "root" {
   rest_api_id = aws_api_gateway_rest_api.my_api.id
   parent_id = aws_api_gateway_rest_api.my_api.root_resource_id
-  path_part = "mypath"
+  path_part = "api"
   
 }
 
 resource "aws_api_gateway_method" "proxy" {
   rest_api_id = aws_api_gateway_rest_api.my_api.id
   resource_id = aws_api_gateway_resource.root.id
-  http_method = "POST"
+  http_method = "ANY"
   authorization = "NONE"
 }
 
 resource "aws_api_gateway_integration" "lambda_integration" {
-  rest_api_id = aws_api_gateway_rest_api.my_api.id
-  resource_id = aws_api_gateway_resource.root.id
-  http_method = aws_api_gateway_method.proxy.http_method
-  integration_http_method = "POST"
-  type = "MOCK"
+  rest_api_id             = aws_api_gateway_rest_api.my_api.id
+  resource_id             = aws_api_gateway_resource.root.id
+  http_method             = aws_api_gateway_method.proxy.http_method
+  integration_http_method = "ANY"
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.lambda_function.invoke_arn
 }
 
 resource "aws_api_gateway_method_response" "proxy" {
@@ -61,5 +62,11 @@ resource "aws_api_gateway_deployment" "deployment" {
   ]
 
   rest_api_id = aws_api_gateway_rest_api.my_api.id
-  stage_name = "prod"
+  stage_name = "v1"
+}
+
+
+output "deployment_invoke_url" {
+  description = "API GW Deployment invoke url"
+  value       = aws_api_gateway_deployment.deployment.invoke_url
 }

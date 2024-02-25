@@ -32,21 +32,23 @@ resource "aws_s3_bucket_public_access_block" "public_access_block" {
 
 resource "aws_s3_bucket_policy" "bucket_policy" {
   bucket = aws_s3_bucket.bucket.id
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Sid       = "PublicRead"
-        Effect    = "Allow"
-        Principal = "*"
-        Action    = ["s3:GetObject"]
-        Resource  = "${aws_s3_bucket.bucket.arn}/*"
-      },
-    ]
-  })
+  policy = data.aws_iam_policy_document.iam-policy-1.json
 }
 
+data "aws_iam_policy_document" "iam-policy-1" {
+  statement {
+    sid    = "AllowPublicRead"
+    effect = "Allow"
+    resources = [
+      "${aws_s3_bucket.bucket.arn}/*"
+    ]
+    actions = ["S3:GetObject"]
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+  }
+}
 
 output "bucket_name" {
 	value = aws_s3_bucket.bucket.id
@@ -59,5 +61,6 @@ output "bucket_arn" {
 
 output "bucket_url" {
     description = "url of the bucket"
-    value       = "https://${aws_s3_bucket.bucket.id}.s3.${aws_s3_bucket.bucket.region}.amazonaws.com/"
+	// http://team26-ofl9ma.s3-website-us-east-1.amazonaws.com/
+    value       = "http://${aws_s3_bucket.bucket.id}.s3-website-${aws_s3_bucket.bucket.region}.amazonaws.com/"
 }
