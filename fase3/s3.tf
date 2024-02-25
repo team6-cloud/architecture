@@ -35,7 +35,6 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
 
   policy = jsonencode({
     Version = "2012-10-17"
-    Id      = "MYBUCKETPOLICY"
     Statement = [
       {
         Sid       = "PublicRead"

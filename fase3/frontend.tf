@@ -23,5 +23,5 @@ resource "null_resource" "update_source_files" {
 
 output "upload_source_files" {
     description 	= 	"upload source files"
-	value 			= 	"aws s3 cp build/ s3://${aws_s3_bucket.bucket.id} --recursive"
+	value 			= 	"aws s3 cp src/frontend/build/ s3://${aws_s3_bucket.bucket.id} --recursive"
 }
