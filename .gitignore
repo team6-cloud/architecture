@@ -1,0 +1,12 @@
+# IDE related
+.vscode
+.idea
+# OS related
+.DS_Store
+
+# Terraform files
+**/.terraform/*
+.terraform.*
+# .tfstate files
+*.tfstate
+*.tfstate.*
