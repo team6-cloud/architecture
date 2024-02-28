@@ -16,6 +16,9 @@ resource "null_resource" "update_source_files" {
 			EOT
 	    on_failure = fail
     }
+	
+	depends_on = [aws_s3_bucket.bucket, aws_cloudfront_distribution.main_distribution]
+	
 }
 
 
