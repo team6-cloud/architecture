@@ -73,7 +73,12 @@ resource "aws_cloudfront_distribution" "main_distribution" {
 	}  
 }
 
-output "cloudfront_domain_name" {
+output "cloudfront_url" {
   description = "Cloudfront domain name"
   value       = aws_cloudfront_distribution.main_distribution.domain_name
+}
+
+output "cloudfront_fqdn" {
+  description = "cloudfront FQDN"
+  value = replace(aws_cloudfront_distribution.main_distribution.domain_name, "https://", "")
 }

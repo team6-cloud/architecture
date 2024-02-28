@@ -69,3 +69,8 @@ output "deployment_invoke_url" {
   description = "API GW Deployment invoke url"
   value       = "${aws_api_gateway_deployment.deployment.invoke_url}/${aws_api_gateway_resource.root.path_part}"
 }
+
+output "apigw_deployment_fqdn" {
+  description = "API GW Deployment invoke url"
+  value       = replace ( replace( replace( aws_api_gateway_deployment.deployment.invoke_url,"https://","") , aws_api_gateway_deployment.deployment.stage_name, ""), "/", "")
+}
