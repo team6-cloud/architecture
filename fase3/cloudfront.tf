@@ -10,7 +10,7 @@ resource "aws_cloudfront_distribution" "main_distribution" {
   
   enabled = true
   
-  origin {
+  origin {	// S3
     origin_id                = local.s3_origin_id
     domain_name              = local.s3_domain_name
     custom_origin_config {
@@ -21,8 +21,9 @@ resource "aws_cloudfront_distribution" "main_distribution" {
     }
   }
   
-  origin {
-    domain_name = aws_api_gateway_deployment.deployment.invoke_url
+  origin { // API GW
+//    domain_name = aws_api_gateway_deployment.deployment.invoke_url
+    domain_name = replace ( replace( replace( aws_api_gateway_deployment.deployment.invoke_url,"https://","") , aws_api_gateway_deployment.deployment.stage_name, ""), "/", "")
     origin_id   = aws_api_gateway_rest_api.my_api.id
     custom_origin_config {
       http_port              = "80"
