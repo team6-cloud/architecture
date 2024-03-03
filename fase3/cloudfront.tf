@@ -53,6 +53,21 @@ resource "aws_cloudfront_distribution" "main_distribution" {
     default_ttl            = 0
     max_ttl                = 0
   }
+  
+ ordered_cache_behavior {
+    viewer_protocol_policy = "redirect-to-https" 
+    allowed_methods = ["HEAD", "OPTIONS", "GET", "PUT", "POST", "DELETE", "PATCH"]
+    cached_methods   = ["GET", "HEAD"]
+    path_pattern     = "/${aws_api_gateway_deployment.deployment.stage_name}/${aws_api_gateway_resource.root.path_part}/*"
+    target_origin_id = aws_api_gateway_rest_api.my_api.id
+
+    forwarded_values {
+      query_string = true
+      cookies { 
+        forward = "all"
+      }
+    }
+  }
 
   restrictions {
     geo_restriction {
